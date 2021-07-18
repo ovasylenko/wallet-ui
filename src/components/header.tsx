@@ -9,14 +9,18 @@ import { changeDefaultCurrency } from "@data/reducers/currencies";
 function Header() {
   const currency = useSelector((s: IRootState) => s.currencies.currency);
   const wallet = useSelector((s: IRootState) => s.user.wallet);
+  const allCurrencies = useSelector((s: IRootState) => s.user.currentCurrency);
   const dispatch = useDispatch();
+  const total = React.useMemo(() => {
+    return Object.values(allCurrencies).reduce((a,r) => a+r.value,  0);
+  }, [allCurrencies]);
 
   return (
     <header className="bg-gray-800">
       <div className="max-w-7xl mx-auto py-4 px-4 sm:py-24 sm:px-6 lg:px-8 lg:flex lg:justify-between">
         <div className="max-w-xl">
           <h2 className="text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
-            Wallet
+            Wallet [{total} {currency}]
           </h2>
         </div>
         <div className="mt-10 lg:mt-0 w-full max-w-xs">

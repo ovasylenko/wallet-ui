@@ -3,7 +3,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "@I/state";
-import { changeAmount, submitOperation, toggleExchangeSlideover } from "@data/reducers/exchange";
+import {
+  changeAmount,
+  submitOperation,
+  toggleExchangeSlideover,
+} from "@data/reducers/exchange";
 import { OPERATIONS } from "@I/operations";
 
 export default function ExchangeSlideover() {
@@ -58,17 +62,19 @@ export default function ExchangeSlideover() {
                     </div>
                   </div>
                   <div className="mt-6 relative flex-1 px-4 sm:px-6">
-                    {exchange.operation === OPERATIONS.EXCHANGE && <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
-                      <label
-                        htmlFor="photo"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        From
-                      </label>
-                      <div className="mt-1 sm:mt-0 sm:col-span-2">
-                        <div className="flex items-center">EUR</div>
+                    {exchange.operation === OPERATIONS.EXCHANGE && (
+                      <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
+                        <label
+                          htmlFor="photo"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          From
+                        </label>
+                        <div className="mt-1 sm:mt-0 sm:col-span-2">
+                          <div className="flex items-center">EUR</div>
+                        </div>
                       </div>
-                    </div>}
+                    )}
 
                     <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
                       <label
@@ -98,17 +104,20 @@ export default function ExchangeSlideover() {
                           className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                           value={exchange.amount}
                           onChange={(e) => {
-                            e.stopPropagation()
+                            e.stopPropagation();
                             if (e.target.value.match(/^\d+$/)) {
                               if (exchange.operation === OPERATIONS.DEPOSIT) {
-                                dispatch(changeAmount(+e.target.value))
-
+                                dispatch(changeAmount(+e.target.value));
                               } else {
-                                dispatch(changeAmount(Math.min(+e.target.value, wallet[exchange.from]?.value ?? 0)))
-
+                                dispatch(
+                                  changeAmount(
+                                    Math.min(
+                                      +e.target.value,
+                                      wallet[exchange.from]?.value ?? 0
+                                    )
+                                  )
+                                );
                               }
-
-
                             }
                           }}
                         />
@@ -121,7 +130,7 @@ export default function ExchangeSlideover() {
                           type="submit"
                           className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           onClick={() => {
-                            dispatch(submitOperation())
+                            dispatch(submitOperation());
                           }}
                         >
                           Convert
