@@ -71,12 +71,15 @@ export const changeAmount: ActionCreator<
 };
 
 
+
+
+
 export const toggleExchangeSlideover: ActionCreator<
   ThunkAction<void, IUser, void, IExchangeOperationAction>
 > = (args: IExchangeOperation) => {
   return (dispatch: Dispatch<IExchangeOperationAction>): void => {
     dispatch({
-      type: EXHANGE_ACTIONS.CHANGE_AMOUNT,
+      type: EXHANGE_ACTIONS.TOGGLE_EXCHANGE,
       ...args,
     });
   };

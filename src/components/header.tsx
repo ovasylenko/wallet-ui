@@ -20,8 +20,11 @@ function Header() {
       <div className="max-w-7xl mx-auto py-4 px-4 sm:py-24 sm:px-6 lg:px-8 lg:flex lg:justify-between">
         <div className="max-w-xl">
           <h2 className="text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-6xl">
-            Wallet [{total} {currency}]
+            Wallet
           </h2>
+          <h4 className="text-xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-2xl">
+            {total} {currency}
+          </h4>
         </div>
         <div className="mt-10 lg:mt-0 w-full max-w-xs">
           <label
@@ -36,7 +39,7 @@ function Header() {
               name="currency"
               className="appearance-none block w-full bg-none bg-gray-700 border border-transparent rounded-md pl-3 pr-10 py-2 text-base text-white focus:outline-none focus:ring-1 focus:ring-white focus:border-white sm:text-sm"
               defaultValue={currency}
-              onChange={()=>{
+              onChange={() => {
                 dispatch(changeDefaultCurrency(currency));
               }}
             >
