@@ -10,17 +10,15 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { getUser } from '@data/reducers/user';
+import Header from '@components/header';
+import ExchangeSlideover from '@components/exchange-slideover';
 
 
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
+  { name: "Wallet", href: "#", current: true },
 ];
+
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
   { name: "Sign out", href: "#" },
 ];
 
@@ -30,6 +28,7 @@ function classNames(...classes: string[]) {
 
 export default function App() {
   const user = useSelector((s: IRootState) => s.user)
+
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getUser())
@@ -42,18 +41,6 @@ export default function App() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
                 <div className="flex">
-                  <div className="flex-shrink-0 flex items-center">
-                    <img
-                      className="block lg:hidden h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                      alt="Workflow"
-                    />
-                    <img
-                      className="hidden lg:block h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                      alt="Workflow"
-                    />
-                  </div>
                   <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                     {navigation.map((item) => (
                       <a
@@ -199,19 +186,14 @@ export default function App() {
       </Disclosure>
 
       <div className="py-10">
-        <header>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold leading-tight text-gray-900">
-              Dashboard
-            </h1>
-          </div>
-        </header>
+        <Header />
         <main>
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <Wallet />
           </div>
         </main>
       </div>
+      <ExchangeSlideover />
     </div>
   );
 }

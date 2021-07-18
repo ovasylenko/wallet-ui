@@ -1,25 +1,38 @@
 import { USER_ACTIONS } from "@data/actions/user";
-import { IUser } from "interfaces/user";
+import { IUser, IWallet } from "interfaces/user";
 import { Dispatch } from "react";
 import axios from 'axios';
 import { Action, ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
+import { CURRENCY } from "@I/currency";
 
 const initialState: IUser = {
   name: "",
   email: "",
-  userpic:"",
-  wallet: {}
+  userpic: "",
+  wallet: {} as IWallet,
+  currentCurrency: {} as IWallet
 };
 
 interface IUserAction extends Action {
   user: IUser
 }
 
-export default (state = initialState, action: Action | IUserAction) => {
+export interface IWalletAction extends Action {
+  wallet: IWallet;
+  currency: CURRENCY;
+}
+
+export default (
+  state = initialState,
+  action: Action | IUserAction | IWalletAction
+) => {
   switch (action.type) {
     case USER_ACTIONS.GET_USER: {
       return { ...(action as IUserAction).user };
+    }
+    case USER_ACTIONS.UPDATE_CURRENT_CURRENCY: {
+      return {  ...state, currentCurrency: {...(action as IWalletAction).wallet} };
     }
     default:
       return state;
