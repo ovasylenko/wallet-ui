@@ -10,7 +10,7 @@ import { EXHANGE_ACTIONS } from "@data/actions/exchange";
 import { OPERATIONS } from "@I/operations";
 
 const initialState = {
-  isOpen: true,
+  isOpen: false,
   from: CURRENCY.USD,
   to: CURRENCY.EUR,
   amount: 0,
@@ -41,6 +41,9 @@ export default (
         ...state,
         isOpen: !state.isOpen,
         operation: (action as IExchangeOperationAction).operation,
+        from: (action as IExchangeOperationAction).from,
+        to: (action as IExchangeOperationAction).to,
+
       };
     }
 

@@ -71,7 +71,9 @@ export default function ExchangeSlideover() {
                           From
                         </label>
                         <div className="mt-1 sm:mt-0 sm:col-span-2">
-                          <div className="flex items-center">EUR</div>
+                          <div className="flex items-center">
+                            {exchange.from}
+                          </div>
                         </div>
                       </div>
                     )}
@@ -84,7 +86,7 @@ export default function ExchangeSlideover() {
                         To
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
-                        <div className="flex items-center">USD</div>
+                        <div className="flex items-center">{exchange.to}</div>
                       </div>
                     </div>
 
@@ -93,7 +95,7 @@ export default function ExchangeSlideover() {
                         htmlFor="photo"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Amount
+                        Amount [{exchange.from}]
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <input
