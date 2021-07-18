@@ -3,22 +3,25 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "@I/state";
-import { toggleExchangeSlideover } from "@data/reducers/exchange";
+import { changeAmount, submitOperation, toggleExchangeSlideover } from "@data/reducers/exchange";
+import { OPERATIONS } from "@I/operations";
 
 export default function ExchangeSlideover() {
-  const open = useSelector((s: IRootState) => s.exchange.isOpen);
+  const exchange = useSelector((s: IRootState) => s.exchange);
+  const wallet = useSelector((s: IRootState) => s.user.wallet);
+
   const dispatch = useDispatch();
 
   const setOpen = () => {
     dispatch(toggleExchangeSlideover());
   };
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={exchange.isOpen} as={Fragment}>
       <Dialog
         as="div"
         static
         className="fixed inset-0 overflow-hidden"
-        open={open}
+        open={exchange.isOpen}
         onClose={setOpen}
       >
         <div className="absolute inset-0 overflow-hidden">
@@ -39,7 +42,9 @@ export default function ExchangeSlideover() {
                   <div className="px-4 sm:px-6">
                     <div className="flex items-start justify-between">
                       <Dialog.Title className="text-lg font-medium text-gray-900">
-                        Exchange / Deposit
+                        {exchange.operation === OPERATIONS.DEPOSIT
+                          ? "Deposit"
+                          : "Exchange"}
                       </Dialog.Title>
                       <div className="ml-3 h-7 flex items-center">
                         <button
@@ -53,7 +58,7 @@ export default function ExchangeSlideover() {
                     </div>
                   </div>
                   <div className="mt-6 relative flex-1 px-4 sm:px-6">
-                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
+                    {exchange.operation === OPERATIONS.EXCHANGE && <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
                       <label
                         htmlFor="photo"
                         className="block text-sm font-medium text-gray-700"
@@ -63,7 +68,7 @@ export default function ExchangeSlideover() {
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <div className="flex items-center">EUR</div>
                       </div>
-                    </div>
+                    </div>}
 
                     <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
                       <label
@@ -91,6 +96,21 @@ export default function ExchangeSlideover() {
                           id="first-name"
                           autoComplete="given-name"
                           className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                          value={exchange.amount}
+                          onChange={(e) => {
+                            e.stopPropagation()
+                            if (e.target.value.match(/^\d+$/)) {
+                              if (exchange.operation === OPERATIONS.DEPOSIT) {
+                                dispatch(changeAmount(+e.target.value))
+
+                              } else {
+                                dispatch(changeAmount(Math.min(+e.target.value, wallet[exchange.from]?.value ?? 0)))
+
+                              }
+
+
+                            }
+                          }}
                         />
                       </div>
                     </div>
@@ -100,6 +120,9 @@ export default function ExchangeSlideover() {
                         <button
                           type="submit"
                           className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          onClick={() => {
+                            dispatch(submitOperation())
+                          }}
                         >
                           Convert
                         </button>

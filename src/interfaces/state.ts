@@ -1,4 +1,5 @@
 import { CURRENCY } from "./currency";
+import { OPERATIONS } from "./operations";
 import { IUser } from "./user";
 
 export interface IRootState {
@@ -10,6 +11,7 @@ export interface IRootState {
     isOpen: boolean;
     from: CURRENCY;
     to: CURRENCY;
-    fromAmount: number;
+    amount: number;
+    operation: OPERATIONS;
   };
 }

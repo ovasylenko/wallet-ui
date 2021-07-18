@@ -1,0 +1,4 @@
+export enum OPERATIONS {
+  EXCHANGE="EXCHANGE",
+  DEPOSIT= "DEPOSIT"
+}

@@ -7,24 +7,47 @@ import { ThunkAction } from "redux-thunk";
 import { CURRENCY } from "@I/currency";
 import { IWalletAction } from "./user";
 import { EXHANGE_ACTIONS } from "@data/actions/exchange";
+import { OPERATIONS } from "@I/operations";
 
 const initialState = {
   isOpen: true,
   from: CURRENCY.USD,
   to: CURRENCY.EUR,
-  fromAmount: 0
+  amount: 0,
+  operation: OPERATIONS.EXCHANGE
 };
 
-interface IUserAction extends Action {
-  user: IUser;
+interface IExchangeOperation {
+  operation: OPERATIONS;
+  from: CURRENCY;
+  to: CURRENCY;
+  amount: number;
 }
 
-export default (state = initialState, action: Action | IWalletAction) => {
+interface IExchangeOperationAction extends IExchangeOperation, Action {}
+
+interface IExchangeAmountAction extends Action {
+  amount: number
+}
+
+
+export default (
+  state = initialState,
+  action: Action | IExchangeOperationAction
+) => {
   switch (action.type) {
     case EXHANGE_ACTIONS.TOGGLE_EXCHANGE: {
       return {
         ...state,
-        isOpen: !state.isOpen
+        isOpen: !state.isOpen,
+        operation: (action as IExchangeOperationAction).operation,
+      };
+    }
+
+    case EXHANGE_ACTIONS.CHANGE_AMOUNT: {
+      return {
+        ...state,
+        amount: (action as IExchangeAmountAction).amount,
       };
     }
     default:
@@ -32,12 +55,42 @@ export default (state = initialState, action: Action | IWalletAction) => {
   }
 };
 
-export const toggleExchangeSlideover: ActionCreator<
-  ThunkAction<void, IUser, void, Action>
-> = () => {
-  return (dispatch: Dispatch<Action>): void => {
+
+
+
+export const changeAmount: ActionCreator<
+  ThunkAction<void, IUser, void, IExchangeAmountAction>
+> = (amount: number) => {
+  return (dispatch: Dispatch<IExchangeAmountAction>,): void => {
+
     dispatch({
-      type: EXHANGE_ACTIONS.TOGGLE_EXCHANGE
+      type: EXHANGE_ACTIONS.CHANGE_AMOUNT,
+      amount,
+    });
+  };
+};
+
+
+export const toggleExchangeSlideover: ActionCreator<
+  ThunkAction<void, IUser, void, IExchangeOperationAction>
+> = (args: IExchangeOperation) => {
+  return (dispatch: Dispatch<IExchangeOperationAction>): void => {
+    dispatch({
+      type: EXHANGE_ACTIONS.CHANGE_AMOUNT,
+      ...args,
+    });
+  };
+};
+
+
+
+export const submitOperation: ActionCreator<
+  ThunkAction<void, IUser, void, IExchangeOperationAction>
+> = (args: IExchangeOperation) => {
+  return (dispatch: Dispatch<IExchangeOperationAction>): void => {
+    dispatch({
+      type: EXHANGE_ACTIONS.CHANGE_AMOUNT,
+      ...args,
     });
   };
 };

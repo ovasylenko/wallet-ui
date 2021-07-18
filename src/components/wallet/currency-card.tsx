@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { format } from "d3-format";
 import { CurrencySwitch } from "./currency-switch";
 import { ICurrencyDetails } from "@I/user";
+import {  OPERATIONS } from "@I/operations";
+
 import { toggleExchangeSlideover } from "@data/reducers/exchange";
 
 const f = format(",.2f");
@@ -49,7 +51,14 @@ export const CurrencyCard: React.FC<IProps> = ({
               active={switchValue}
               onChange={(value) => {
                 setSwitch(value);
-                dispatch(toggleExchangeSlideover());
+                dispatch(
+                  toggleExchangeSlideover({
+                    operation: OPERATIONS.EXCHANGE,
+                    from: switchValue,
+                    to: value,
+                    amount: details?.value ?? 0
+                  })
+                );
               }}
             />
             <div className="flex w-16 h-full">
@@ -57,8 +66,18 @@ export const CurrencyCard: React.FC<IProps> = ({
               <button
                 type="button"
                 className="relative inline-flex items-center  px-4 py-2  text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                onClick={() => {
+                  setSwitch("+");
+
+                  dispatch(
+                    toggleExchangeSlideover({
+                      operation: OPERATIONS.DEPOSIT,
+                      to: switchValue,
+                    })
+                  );
+                }}
               >
-               +
+                +
               </button>
             </div>
           </div>
