@@ -9,6 +9,7 @@ const initialState: IUser = {
   name: "",
   email: "",
   userpic:"",
+  wallet: {}
 };
 
 interface IUserAction extends Action {
@@ -29,7 +30,7 @@ export const getUser: ActionCreator<
   ThunkAction<Promise<void>, IUser, null, IUserAction>
 > = () => {
   return async (dispatch: Dispatch<IUserAction>): Promise<void> => {
-    const { data: user }: { data: IUser } = await axios("/api/v1/users");
+    const { data: user }: { data: IUser } = await axios("/api/v1/auth");
     return dispatch({
       type: USER_ACTIONS.GET_USER,
       user,

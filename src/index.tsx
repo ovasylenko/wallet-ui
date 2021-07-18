@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
+import { worker }  from "./mocks/browser";
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from "./data";
 
 import "./index.css";
+worker.start();
 
 ReactDOM.render(
   <React.StrictMode>
