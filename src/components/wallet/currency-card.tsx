@@ -2,12 +2,12 @@ import { CURRENCY } from "@I/currency";
 import { IRootState } from "@I/state";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { format } from "d3-format";
 import { CurrencySwitch } from "./currency-switch";
 import { ICurrencyDetails } from "@I/user";
 import {  OPERATIONS } from "@I/operations";
 
 import { toggleExchangeSlideover } from "@data/reducers/exchange";
+import { format } from "d3-format";
 
 const f = format(",.2f");
 
@@ -16,6 +16,7 @@ interface IProps {
   name: string;
   currencies: string[];
   currentDetails: ICurrencyDetails;
+  currency: CURRENCY
 }
 
 export const CurrencyCard: React.FC<IProps> = ({
@@ -23,9 +24,10 @@ export const CurrencyCard: React.FC<IProps> = ({
   name,
   currencies,
   currentDetails,
+  currency,
 }) => {
   const [switchValue, setSwitch] = useState(name);
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   return (
     <li className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
@@ -37,7 +39,7 @@ export const CurrencyCard: React.FC<IProps> = ({
             </h3>
           </div>
           <p className="mt-1 text-gray-500 text-sm truncate">
-            {f(currentDetails?.value ?? 0)}
+            {f(currentDetails?.value ?? 0)} [{currency}]
           </p>
         </div>
         <div>{f(details?.value ?? 0)}</div>
@@ -56,7 +58,7 @@ export const CurrencyCard: React.FC<IProps> = ({
                     operation: OPERATIONS.EXCHANGE,
                     from: switchValue,
                     to: value,
-                    amount: details?.value ?? 0
+                    amount: details?.value ?? 0,
                   })
                 );
               }}

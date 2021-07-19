@@ -8,7 +8,7 @@ import { CURRENCY } from "@I/currency";
 import { IWalletAction } from "./user";
 
 const initialState = {
-  currency: CURRENCY.EUR
+  currency: CURRENCY.USD
 };
 
 interface IUserAction extends Action {

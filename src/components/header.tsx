@@ -5,6 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { IWallet } from "@I/user";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { changeDefaultCurrency } from "@data/reducers/currencies";
+import { format } from "d3-format";
+
+const f = format(",.2f");
 
 function Header() {
   const currency = useSelector((s: IRootState) => s.currencies.currency);
@@ -23,7 +26,7 @@ function Header() {
             Wallet
           </h2>
           <h4 className="text-xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-2xl">
-            {total} {currency}
+            {f(total)} {currency}
           </h4>
         </div>
         <div className="mt-10 lg:mt-0 w-full max-w-xs">
@@ -39,8 +42,8 @@ function Header() {
               name="currency"
               className="appearance-none block w-full bg-none bg-gray-700 border border-transparent rounded-md pl-3 pr-10 py-2 text-base text-white focus:outline-none focus:ring-1 focus:ring-white focus:border-white sm:text-sm"
               defaultValue={currency}
-              onChange={() => {
-                dispatch(changeDefaultCurrency(currency));
+              onChange={(e) => {
+                dispatch(changeDefaultCurrency(e.target.value as CURRENCY));
               }}
             >
               {Object.keys(wallet).map((it) => {

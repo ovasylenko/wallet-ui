@@ -95,7 +95,7 @@ export default function ExchangeSlideover() {
                         htmlFor="photo"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Amount [{exchange.from}]
+                        Amount [{exchange.operation === OPERATIONS.EXCHANGE ? exchange.from : exchange.to}]
                       </label>
                       <div className="mt-1 sm:mt-0 sm:col-span-2">
                         <input

@@ -12,6 +12,7 @@ const f = format(",.2f");
 function Wallet() {
   const wallet = useSelector((s: IRootState) => s.user.wallet);
   const currentDetails = useSelector((s: IRootState) => s.user.currentCurrency);
+  const currencyCurrent = useSelector((s: IRootState) => s.currencies.currency );
 
   return (
     <ul className="grid mt-10 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -21,6 +22,7 @@ function Wallet() {
           name={currency}
           details={wallet[currency as CURRENCY] ?? { value: 0 }}
           currencies={currencies}
+          currency={currencyCurrent}
           currentDetails={currentDetails[currency as CURRENCY] ?? { value: 0 }}
         />
       ))}
